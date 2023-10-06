@@ -1,8 +1,8 @@
-# Web Development Project 3 - *Fkashcards for Fun*
+# Web Development Project 3 - *Flashcards for Fun*
 
 Submitted by: **Alan Mong**
 
-This web app: **insert description**
+This web app: **Flashcard game about One Piece Characters**
 
 Time spent: **3** hours spent in total
 
