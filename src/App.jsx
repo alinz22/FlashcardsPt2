@@ -77,14 +77,42 @@ const App = () => {
 
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [userGuess, setUserGuess] = useState(""); // for the user's input
+  const [feedback, setFeedback] = useState(""); // for displaying feedback
 
+  //added this function
+  function handleGuessSubmit() {
+    if (userGuess.toLowerCase() === flashcards[currentCardIndex].answer.toLowerCase()) {
+      setFeedback("Correct!");
+    } else {
+      setFeedback("Incorrect! Try again.");
+    }
+  }
+
+//added this
+  function showPreviousCard() {
+   if (currentCardIndex > 0) {
+     setCurrentCardIndex(currentCardIndex - 1);
+   } else {
+      setCurrentCardIndex(flashcards.length - 1); // loop back to the last card
+    }
+   resetCardState();
+  }
+
+  //added this, moves sequentially through the cards
   function showNextCard() {
     let newIndex;
     do {
       newIndex = Math.floor(Math.random() * flashcards.length);
     } while (newIndex === currentCardIndex);
     setCurrentCardIndex(newIndex);
+    resetCardState();
+  }
+
+  function resetCardState() {
     setShowAnswer(false);
+    setUserGuess('');
+    setFeedback(''); // This will reset the feedback state.
   }
 
   return (
@@ -94,14 +122,29 @@ const App = () => {
         <h3>Test out who you know in One Piece!</h3>
         <h4>Number of Cards: 10</h4>
 
-        <div className="flashcard-container">
-          <Flashcard
-            card={flashcards[currentCardIndex]}
-            showAnswer={showAnswer}
-            toggleAnswer={() => setShowAnswer(!showAnswer)}
-          />
-          <button onClick={showNextCard}>Next Card</button>
-        </div>
+        <input 
+          type="text" 
+          placeholder="Enter your guess" 
+          value={userGuess}
+          onChange={e => setUserGuess(e.target.value)}
+        />
+        <button onClick={handleGuessSubmit}>Submit Guess</button>
+        {feedback && (
+          <div 
+          className={`feedback-message ${feedback === "Correct!" ? "correct-feedback" : "incorrect-feedback"}`}
+       >
+          {feedback}
+       </div>
+       
+        )}
+
+        <Flashcard
+          card={flashcards[currentCardIndex]}
+          showAnswer={showAnswer}
+          toggleAnswer={() => setShowAnswer(!showAnswer)}
+        />
+        <button onClick={showPreviousCard}>Previous Card</button>
+        <button onClick={showNextCard}>Next Card</button>
       </div>
     </div>
   );
