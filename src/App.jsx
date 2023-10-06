@@ -91,21 +91,21 @@ const App = () => {
 
 //added this
   function showPreviousCard() {
-   if (currentCardIndex > 0) {
-     setCurrentCardIndex(currentCardIndex - 1);
-   } else {
+    if (currentCardIndex > 0) {
+      setCurrentCardIndex(currentCardIndex - 1);
+    } else {
       setCurrentCardIndex(flashcards.length - 1); // loop back to the last card
     }
-   resetCardState();
+    resetCardState();
   }
 
   //added this, moves sequentially through the cards
   function showNextCard() {
-    let newIndex;
-    do {
-      newIndex = Math.floor(Math.random() * flashcards.length);
-    } while (newIndex === currentCardIndex);
-    setCurrentCardIndex(newIndex);
+    if (currentCardIndex < flashcards.length - 1) {
+      setCurrentCardIndex(currentCardIndex + 1);
+    } else {
+      setCurrentCardIndex(0); // loop back to the first card
+    }
     resetCardState();
   }
 
